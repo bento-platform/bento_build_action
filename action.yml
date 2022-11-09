@@ -1,8 +1,8 @@
 name: "Bento Build"
 description: "Composite GitHub action for building Bento images"
 inputs:
-  container-name:
-    description: "Container name"
+  image-name:
+    description: "Image name"
     required: true
   development-dockerfile:
     description: "Development Dockerfile path"
@@ -33,7 +33,7 @@ runs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          ${{ inputs.container-name }}
+          ${{ inputs.image-name }}
         flavor: |
           latest=false
         tags: |
@@ -57,7 +57,7 @@ runs:
       if: ${{ github.event_name == 'release' }}
       with:
         images: |
-          ${{ inputs.container-name }}
+          ${{ inputs.image-name }}
         flavor: |
           latest=true
         tags: |
