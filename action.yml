@@ -1,6 +1,15 @@
 name: "Bento Build"
 description: "Composite GitHub action for building Bento images"
 inputs:
+  registry:
+    description: "Container registry"
+    required: true
+  registry-username:
+    description: "Container registry username"
+    required: true
+  registry-password:
+    description: "Container registry password"
+    required: true
   image-name:
     description: "Image name"
     required: true
@@ -24,9 +33,9 @@ runs:
     - name: Log into the container registry
       uses: docker/login-action@v2
       with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.registry-username }}
+        password: ${{ inputs.registry-password }}
 
     - name: Set up development image metadata
       id: meta-dev
