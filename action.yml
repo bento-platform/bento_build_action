@@ -42,7 +42,7 @@ runs:
     - name: Set up development image metadata
       id: meta-dev
       uses: docker/metadata-action@v4
-      if: ${{ github.event_name == 'push' }}
+      if: ${{ github.event_name != 'release' }}
       with:
         images: |
           ${{ inputs.image-name }}
@@ -50,10 +50,12 @@ runs:
           latest=false
         tags: |
           type=raw,value=latest-dev,enable={{is_default_branch}}
+          type=ref,event=pr,suffix=-dev
+          type=sha,prefix=sha-,suffix=-dev
 
     - name: Build and push development image
       uses: docker/build-push-action@v3
-      if: ${{ github.event_name == 'push' }}
+      if: ${{ github.event_name != 'release' }}
       with:
         context: .
         file: ${{ inputs.development-dockerfile }}
