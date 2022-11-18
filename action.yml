@@ -13,6 +13,10 @@ inputs:
   image-name:
     description: "Image name"
     required: true
+  development-dockerfile:
+    description: "Development Dockerfile path"
+    required: true
+    default: "dev.Dockerfile"
   dockerfile:
     description: "Dockerfile path"
     required: true
@@ -35,8 +39,31 @@ runs:
         username: ${{ inputs.registry-username }}
         password: ${{ inputs.registry-password }}
 
-    - name: Set up edge image metadata
+    - name: Set up development image metadata
       id: meta-dev
+      uses: docker/metadata-action@v4
+      if: ${{ github.event_name == 'push' }}
+      with:
+        images: |
+          ${{ inputs.image-name }}
+        flavor: |
+          latest=false
+        tags: |
+          type=raw,value=latest-dev,enable={{is_default_branch}}
+
+    - name: Build and push development image
+      uses: docker/build-push-action@v3
+      if: ${{ github.event_name == 'push' }}
+      with:
+        context: .
+        file: ${{ inputs.development-dockerfile }}
+        push: true
+        tags: ${{ steps.meta-dev.outputs.tags }}
+        labels: ${{ steps.meta-dev.outputs.labels }}
+        platforms: linux/amd64,linux/arm64
+
+    - name: Set up edge image metadata
+      id: meta-edge
       uses: docker/metadata-action@v4
       if: ${{ github.event_name != 'release' }}
       with:
@@ -45,7 +72,7 @@ runs:
         flavor: |
           latest=false
         tags: |
-          type=raw,value=latest-edge,enable={{is_default_branch}}
+          type=raw,value=edge,enable={{is_default_branch}}
           type=ref,event=pr
           type=sha,prefix=sha-
 
@@ -56,8 +83,8 @@ runs:
         context: .
         file: ${{ inputs.dockerfile }}
         push: true
-        tags: ${{ steps.meta-dev.outputs.tags }}
-        labels: ${{ steps.meta-dev.outputs.labels }}
+        tags: ${{ steps.meta-edge.outputs.tags }}
+        labels: ${{ steps.meta-edge.outputs.labels }}
         platforms: linux/amd64,linux/arm64
 
     - name: Set up release image metadata
