@@ -63,6 +63,8 @@ runs:
         tags: ${{ steps.meta-dev.outputs.tags }}
         labels: ${{ steps.meta-dev.outputs.labels }}
         platforms: linux/amd64,linux/arm64
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
 
     - name: Set up edge image metadata
       id: meta-edge
@@ -88,6 +90,8 @@ runs:
         tags: ${{ steps.meta-edge.outputs.tags }}
         labels: ${{ steps.meta-edge.outputs.labels }}
         platforms: linux/amd64,linux/arm64
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
 
     - name: Set up release image metadata
       id: meta
@@ -112,3 +116,5 @@ runs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: linux/amd64,linux/arm64
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
