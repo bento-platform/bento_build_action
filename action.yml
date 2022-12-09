@@ -21,6 +21,10 @@ inputs:
     description: "Dockerfile path"
     required: true
     default: "Dockerfile"
+  build-args:
+    description: "Docker build arguments"
+    required: true
+    default: ""
 runs:
   using: "composite"
   steps:
@@ -86,6 +90,7 @@ runs:
       with:
         context: .
         file: ${{ inputs.dockerfile }}
+        build-args: ${{ inputs.build-args }}
         push: true
         tags: ${{ steps.meta-edge.outputs.tags }}
         labels: ${{ steps.meta-edge.outputs.labels }}
@@ -112,6 +117,7 @@ runs:
       with:
         context: .
         file: ${{ inputs.dockerfile }}
+        build-args: ${{ inputs.build-args }}
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
