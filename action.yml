@@ -25,6 +25,10 @@ inputs:
     description: "Docker build arguments"
     required: true
     default: ""
+  context:
+    description: "Docker build context"
+    required: true
+    default: "."
 runs:
   using: "composite"
   steps:
@@ -88,7 +92,7 @@ runs:
       uses: docker/build-push-action@v3
       if: ${{ github.event_name != 'release' }}
       with:
-        context: .
+        context: ${{ inputs.context }}
         file: ${{ inputs.dockerfile }}
         build-args: ${{ inputs.build-args }}
         push: true
@@ -115,7 +119,7 @@ runs:
       uses: docker/build-push-action@v3
       if: ${{ github.event_name == 'release' }}
       with:
-        context: .
+        context: ${{ inputs.context }}
         file: ${{ inputs.dockerfile }}
         build-args: ${{ inputs.build-args }}
         push: true
