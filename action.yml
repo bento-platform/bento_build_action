@@ -67,6 +67,7 @@ runs:
       with:
         context: .
         file: ${{ inputs.development-dockerfile }}
+        build-args: ${{ inputs.build-args }}
         push: true
         tags: ${{ steps.meta-dev.outputs.tags }}
         labels: ${{ steps.meta-dev.outputs.labels }}
@@ -94,8 +95,7 @@ runs:
       with:
         context: ${{ inputs.context }}
         file: ${{ inputs.dockerfile }}
-        build-args: |
-          ${{ inputs.build-args }}
+        build-args: ${{ inputs.build-args }}
         push: true
         tags: ${{ steps.meta-edge.outputs.tags }}
         labels: ${{ steps.meta-edge.outputs.labels }}
@@ -122,8 +122,7 @@ runs:
       with:
         context: ${{ inputs.context }}
         file: ${{ inputs.dockerfile }}
-        build-args: |
-          ${{ inputs.build-args }}
+        build-args: ${{ inputs.build-args }}
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
