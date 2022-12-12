@@ -65,7 +65,7 @@ runs:
       uses: docker/build-push-action@v3
       if: ${{ github.event_name != 'release' }}
       with:
-        context: .
+        context: ${{ inputs.context }}
         file: ${{ inputs.development-dockerfile }}
         build-args: ${{ inputs.build-args }}
         push: true
