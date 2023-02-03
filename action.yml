@@ -57,6 +57,8 @@ runs:
         flavor: |
           latest=false
         tags: |
+          type=semver,pattern={{version}},suffix=-dev
+          type=semver,pattern={{major}}.{{minor}},suffix=-dev
           type=raw,value=latest-dev,enable={{is_default_branch}}
           type=ref,event=pr,suffix=-dev
           type=sha,prefix=sha-,suffix=-dev
