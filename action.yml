@@ -50,7 +50,6 @@ runs:
     - name: Set up development image metadata
       id: meta-dev
       uses: docker/metadata-action@v4
-      if: ${{ github.event_name != 'release' }}
       with:
         images: |
           ${{ inputs.image-name }}
@@ -65,7 +64,6 @@ runs:
 
     - name: Build and push development image
       uses: docker/build-push-action@v3
-      if: ${{ github.event_name != 'release' }}
       with:
         context: ${{ inputs.context }}
         file: ${{ inputs.development-dockerfile }}
