@@ -58,7 +58,8 @@ runs:
         tags: |
           type=semver,pattern={{version}},suffix=-dev
           type=semver,pattern={{major}}.{{minor}},suffix=-dev
-          type=raw,value=latest-dev,enable={{is_default_branch}}
+          type=raw,value=latest-dev,enable=${{ github.event_name == 'release' }}
+          type=raw,value=edge-dev,enable={{is_default_branch}}
           type=ref,event=pr,suffix=-dev
           type=sha,prefix=sha-,suffix=-dev
 
