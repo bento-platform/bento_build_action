@@ -1,4 +1,5 @@
-# bento_build_action
+# Bento Build Action
+
 GitHub CI composite action to build development and production containers for Bento components.
 
 To use this in a Bento service repository, create a GitHub Actions workflow 
@@ -26,10 +27,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Run Bento build action
-        uses: bento-platform/bento_build_action@v0.7
+        uses: bento-platform/bento_build_action@v0.11.1
         with:
           registry: ghcr.io
           registry-username: ${{ github.actor }}
