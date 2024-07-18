@@ -64,7 +64,7 @@ runs:
           type=sha,prefix=sha-,suffix=-dev
 
     - name: Build and push development image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: ${{ inputs.context }}
         file: ${{ inputs.development-dockerfile }}
@@ -91,7 +91,7 @@ runs:
           type=sha,prefix=sha-
 
     - name: Build and push edge image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       if: ${{ github.event_name != 'release' }}
       with:
         context: ${{ inputs.context }}
@@ -118,7 +118,7 @@ runs:
           type=semver,pattern={{major}}.{{minor}}
 
     - name: Build and push release image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       if: ${{ github.event_name == 'release' }}
       with:
         context: ${{ inputs.context }}
