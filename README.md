@@ -27,10 +27,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Run Bento build action
-        uses: bento-platform/bento_build_action@v1
+        uses: bento-platform/bento_build_action@v1.0.0
         with:
           registry: ghcr.io
           registry-username: ${{ github.actor }}
